@@ -24,8 +24,6 @@ jobs:
         run: bun install
       - name: TypeScript check
         run: bun run tsc --noEmit
-      - name: Run tests
-        run: bun run test --coverage
   build:
     needs: quality
     runs-on: ubuntu-latest

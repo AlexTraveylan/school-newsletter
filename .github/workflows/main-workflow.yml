@@ -19,11 +19,13 @@ jobs:
       - name: Install Bun
         run: |
           curl -fsSL https://bun.sh/install | bash
-          echo "::add-path::$HOME/.bun/bin"
+          echo "$HOME/.bun/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: bun install
       - name: TypeScript check
         run: bun run tsc --noEmit
+      - name: Run tests
+        run: bun run test --coverage
   build:
     needs: quality
     runs-on: ubuntu-latest
@@ -33,7 +35,7 @@ jobs:
       - name: Install Bun
         run: |
           curl -fsSL https://bun.sh/install | bash
-          echo "::add-path::$HOME/.bun/bin"
+          echo "$HOME/.bun/bin" >> $GITHUB_PATH
       - name: Install dependencies
         run: bun install
       - name: Build

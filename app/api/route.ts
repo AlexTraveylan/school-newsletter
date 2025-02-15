@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     emailRepository.add(emailItem)
 
-    return NextResponse.json({ message: "Email ajouté avec succès" })
+    return NextResponse.json({ message: "Email ajouté avec succès" }, { status: 201 })
   } catch (error) {
     console.error(error)
     return NextResponse.json(
@@ -40,16 +40,24 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
-  const emailRepository = new EmailRepository()
-  const securityService = new SecurityService()
+  try {
+    const emailRepository = new EmailRepository()
+    const securityService = new SecurityService()
 
-  const emails = await emailRepository.getAll()
+    const emails = await emailRepository.getAll()
 
-  const formatedEmails = emails.map((email) => {
-    return {
-      email: securityService.decode(email.encodedEmail),
-    }
-  })
+    const formatedEmails = emails.map((email) => {
+      return {
+        email: securityService.decode(email.encodedEmail),
+      }
+    })
 
-  return NextResponse.json({ formatedEmails })
+    return NextResponse.json({ formatedEmails })
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json(
+      { error: "Echec lors de la récupération des emails" },
+      { status: 400 }
+    )
+  }
 }

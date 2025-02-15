@@ -53,5 +53,12 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Set .env file
+        run: |
+          echo "EDGE_CONFIG_ID=abc1" >> .env
+          echo "VERCEL_TEAM_ID=abc12" >> .env
+          echo "VERCEL_API_TOKEN=abc123" >> .env
+          echo "SECRET_KEY=abcdefghijklmnopqrstuvwxyz123456" >> .env
+
       - name: Build
         run: bun run build

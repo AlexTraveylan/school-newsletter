@@ -29,10 +29,6 @@ export class Repository<T> {
   async add(item: T): Promise<void> {
     const prevItems = await this.getAll()
 
-    if (prevItems.some((prevItem) => prevItem === item)) {
-      throw new Error("L'item existe déjà")
-    }
-
     const newItems = [...prevItems, item]
 
     const response = await fetch(vercelApiUrl, {

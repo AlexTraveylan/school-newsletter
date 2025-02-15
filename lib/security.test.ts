@@ -43,7 +43,7 @@ describe("SecurityService", () => {
       }
 
       // Injecter le mock
-      // @ts-expect-error
+      // @ts-expect-error - On ignore l'erreur TS car on modifie une propriété privée pour les tests
       securityService.crypto = mockCrypto
 
       const encodedMessage = `${mockIv.toString("base64")}:encrypted-message`

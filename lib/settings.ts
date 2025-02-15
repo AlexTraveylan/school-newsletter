@@ -7,6 +7,10 @@ if (!edgeConfigId || !vercelTeamId || !vercelApiToken || !secretKey) {
   throw new Error("Missing environment variables")
 }
 
+if (secretKey.length !== 32) {
+  throw new Error("The secret key must be 32 characters long")
+}
+
 export const settings = {
   edge_config_id: edgeConfigId,
   vercel_team_id: vercelTeamId,

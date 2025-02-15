@@ -21,6 +21,7 @@ export class Repository<T> {
     try {
       return items.map((item) => this.schema.parse(item))
     } catch (error) {
+      console.error(error)
       throw new Error("Erreur lors de la récupération des items")
     }
   }
@@ -58,19 +59,3 @@ export class EmailRepository extends Repository<Email> {
     super(emailSchema, "emails")
   }
 }
-
-// const emailRepository = new EmailRepository()
-// const emails = await emailRepository.getAll()
-
-// console.log(emails)
-
-// const newEmail = {
-//   email: "timothee.demares@gmail.com",
-//   expire_year: 2025,
-// }
-
-// await emailRepository.add(newEmail)
-
-// const updatedEmails = await emailRepository.getAll()
-
-// console.log(updatedEmails)

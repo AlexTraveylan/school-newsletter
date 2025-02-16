@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken"
+import { settings } from "./settings"
 import { Admin, TokenPayload, tokenPayloadSchema } from "./types"
 
 export class JWTAdminService {
@@ -6,7 +7,7 @@ export class JWTAdminService {
   private readonly tokenExpiration: string
 
   constructor(
-    secretKey: string = process.env.JWT_SECRET_KEY || "votre-clé-secrète-par-défaut",
+    secretKey: string = settings.jwt_secret_key,
     tokenExpiration: string = "24h"
   ) {
     this.secretKey = secretKey

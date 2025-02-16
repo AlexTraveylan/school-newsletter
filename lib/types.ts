@@ -27,3 +27,10 @@ export const invitationSchema = z.object({
 })
 
 export type Invitation = z.infer<typeof invitationSchema>
+
+export const tokenPayloadSchema = z.object({
+  username: z.string(),
+  isSuperAdmin: z.boolean(),
+})
+
+export type TokenPayload = z.infer<typeof tokenPayloadSchema>

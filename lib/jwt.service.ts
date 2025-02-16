@@ -20,6 +20,7 @@ export class JWTAdminService {
     }
 
     try {
+      // @ts-expect-error : I don't how to fix it
       return jwt.sign(payload, this.secretKey, {
         expiresIn: this.tokenExpiration,
       })

@@ -16,6 +16,7 @@ export type SimpleEmail = z.infer<typeof simpleEmailSchema>
 export const adminSchema = z.object({
   username: z.string(),
   password: z.string(),
+  isSuperAdmin: z.boolean(),
 })
 
 export type Admin = z.infer<typeof adminSchema>

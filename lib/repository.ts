@@ -1,7 +1,14 @@
 import { get } from "@vercel/edge-config"
 import { z } from "zod"
 import { settings, vercelApiUrl } from "./settings"
-import { Email, emailSchema } from "./types"
+import {
+  Admin,
+  adminSchema,
+  Email,
+  emailSchema,
+  Invitation,
+  invitationSchema,
+} from "./types"
 
 export class Repository<T> {
   private readonly key: string
@@ -58,5 +65,17 @@ export class Repository<T> {
 export class EmailRepository extends Repository<Email> {
   constructor() {
     super(emailSchema, "emails")
+  }
+}
+
+export class AdminRepository extends Repository<Admin> {
+  constructor() {
+    super(adminSchema, "admins")
+  }
+}
+
+export class InvitationRepository extends Repository<Invitation> {
+  constructor() {
+    super(invitationSchema, "invitations")
   }
 }

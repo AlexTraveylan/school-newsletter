@@ -1,8 +1,5 @@
+import NewsletterForm from "./(composants)/newsletter-form"
+
 export default function Home() {
-  return (
-    <div>
-      <h1>Home</h1>
-      <p>coucou</p>
-    </div>
-  )
+  return <NewsletterForm />
 }

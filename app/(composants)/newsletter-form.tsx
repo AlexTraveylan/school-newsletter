@@ -39,6 +39,7 @@ const NewsletterForm = () => {
 
       form.reset()
     } catch (error) {
+      console.error(error)
       toast.error("Erreur lors de l'inscription")
     }
   }

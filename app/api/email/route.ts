@@ -2,12 +2,11 @@ import { getExpiredYear } from "@/lib/date.service"
 import { EmailRepository } from "@/lib/repository"
 import { SecurityService } from "@/lib/security.service"
 import { simpleEmailSchema } from "@/lib/types"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const formData = await request.formData()
-    const email = formData.get("email") as string
+    const { email } = await request.json()
     const secureEmail = simpleEmailSchema.parse({ email })
 
     const securityService = new SecurityService()

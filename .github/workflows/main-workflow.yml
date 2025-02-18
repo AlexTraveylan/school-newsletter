@@ -51,7 +51,7 @@ jobs:
           echo "VERCEL_API_TOKEN=abc123" >> .env
           echo "SECRET_KEY=abcdefghijklmnopqrstuvwxyz123456" >> .env
           echo "JWT_SECRET_KEY=abc1234" >> .env
-          echo "EDGE_CONFIG=https://edge-config.vercel.com/abcd_1234abcd?token=abcd-1234" >> .env
+          echo "EDGE_CONFIG=${{ secrets.EDGE_CONFIG }}" >> .env
 
       - name: Build
         run: npm run build

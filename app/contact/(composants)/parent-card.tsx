@@ -22,7 +22,7 @@ export const ParentCard = ({ parent }: { parent: ParentElu }) => (
             </a>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Envoyer un email</p>
+            <p>{"Envoyer un email"}</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

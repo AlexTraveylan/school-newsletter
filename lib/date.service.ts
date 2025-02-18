@@ -28,3 +28,15 @@ export function isExpired(expireYear: number): boolean {
 
   return actualMonth >= 8
 }
+
+export function getCurrentScholarYear(): string {
+  const now = new Date()
+  const actualMonth = now.getMonth()
+  const actualYear = now.getFullYear()
+
+  if (actualMonth <= 8) {
+    return `${actualYear - 1}-${actualYear}`
+  }
+
+  return `${actualYear}-${actualYear + 1}`
+}

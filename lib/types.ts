@@ -34,3 +34,11 @@ export const tokenPayloadSchema = z.object({
 })
 
 export type TokenPayload = z.infer<typeof tokenPayloadSchema>
+
+export const parentEluSchema = z.object({
+  name: z.string(),
+  isTitulaire: z.boolean(),
+  email: z.string().optional(),
+})
+
+export type ParentElu = z.infer<typeof parentEluSchema>

@@ -8,6 +8,8 @@ import {
   emailSchema,
   Invitation,
   invitationSchema,
+  ParentElu,
+  parentEluSchema,
 } from "./types"
 
 export class Repository<T> {
@@ -77,5 +79,11 @@ export class AdminRepository extends Repository<Admin> {
 export class InvitationRepository extends Repository<Invitation> {
   constructor() {
     super(invitationSchema, "invitations")
+  }
+}
+
+export class ParentEluRepository extends Repository<ParentElu> {
+  constructor() {
+    super(parentEluSchema, "parentsElus")
   }
 }

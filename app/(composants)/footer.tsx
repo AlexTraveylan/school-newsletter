@@ -1,10 +1,15 @@
+import settings from "@/package.json"
 import { FC } from "react"
 
 const Footer: FC = () => {
   return (
-    <footer className="w-full bg-gray-50 border-t border-gray-200">
-      <div className="text-center px-4 py-8">
-        © {new Date().getFullYear()} {"Représentants des parents d'élèves - École Achard"}
+    <footer className="border-t py-4 px-4">
+      <div className="container mx-auto text-center text-sm text-gray-600">
+        <p>
+          © {new Date().getFullYear()}{" "}
+          {"Représentants des parents d'élèves - École Achard"}
+        </p>
+        <p>Version {settings.version}</p>
       </div>
     </footer>
   )

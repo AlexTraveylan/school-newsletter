@@ -28,7 +28,6 @@ export class JWTAdminService {
       // @ts-expect-error : I don't how to fix it
       return jwt.sign(payload, this.secretKey, {
         expiresIn: this.tokenExpiration,
-        algorithm: "HS256",
       })
     } catch (error) {
       throw new Error(`Erreur lors de l'encodage du token: ${error}`)
@@ -45,6 +44,7 @@ export class JWTAdminService {
         isSuperAdmin: validatedPayload.isSuperAdmin,
       }
     } catch (error) {
+      console.error(error)
       if (error instanceof jwt.JsonWebTokenError) {
         throw new Error("Token invalide")
       }
@@ -66,8 +66,28 @@ export async function verifyAuth(): Promise<TokenPayload | null> {
 
   try {
     const service = new JWTAdminService()
-    return service.decode(String(token))
-  } catch {
+    return service.decode(token.value)
+  } catch (error) {
+    console.error(error)
     return null
   }
 }
+
+// const jwtAdminService = new JWTAdminService()
+
+// const admin = {
+//   encodedUsername: "9qQEfbkzjNKVUNFU2yYRJQ==:prkZIGOWV2gRxH98L88tFNp/rq5VQCGJ2xO3y+uhKWk=",
+//   hashedPassword: "$2b$12$L1pFZSc0XBJf3xJCmt/Sd.riEuQifgFMu3drUxur2MHXDsNhRUZuq",
+//   isSuperAdmin: true,
+// }
+
+// const token = jwtAdminService.encode(admin)
+// console.log(token)
+
+// const decoded = jwtAdminService.decode(token)
+// console.log(decoded)
+
+// const tokenPayload =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRpbW90aGVlLmRlbWFyZXNAZ21haWwuY29tIiwiaXNTdXBlckFkbWluIjp0cnVlLCJpYXQiOjE3NDAwMDU5MTksImV4cCI6MTc0MDA5MjMxOX0.AXq261AqUjdRd1aY7RJ_DWZOOVMGvbDafTNR_v4sRJs"
+
+// console.log(jwtAdminService.decode(String(tokenPayload)))

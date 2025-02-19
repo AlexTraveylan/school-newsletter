@@ -1,49 +1,104 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Login, loginSchema } from "@/lib/types"
 import { cn } from "@/lib/utils"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+  const form = useForm<Login>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  })
+
+  const onSubmit = async (values: Login) => {
+    try {
+      const response = await fetch("/api/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      })
+
+      if (!response.ok) throw new Error("Erreur lors de la connexion")
+
+      toast.success("Connexion réussie !")
+    } catch {
+      toast.error("Erreur lors de la connexion")
+    }
+  }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Connexion</CardTitle>
-          <CardDescription>Connectez vous si vous êtes un parent élu</CardDescription>
+          <CardDescription>Reservé aux représentants des parents.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="username">Email (ou nom d&apos;utilisateur)</Label>
-                <Input
-                  id="username"
-                  type="username"
-                  placeholder="m@example.com"
-                  required
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <div className="flex flex-col gap-6">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email ou nom d&apos;utilisateur</FormLabel>
+                      <FormControl>
+                        <Input placeholder="votre@email.fr" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mot de passe</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full">
+                  Se connecter
+                </Button>
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="password">Mot de passe</Label>
-                <Input id="password" type="password" required />
-              </div>
-              <Button type="submit" className="w-full">
-                Se connecter
-              </Button>
-            </div>
-            <div className="mt-4 text-center text-sm text-muted-foreground">
-              Pas de compte, mot de passe oublié ? Demandez moi sur le Whatapp des parents
-              élus.
-            </div>
-          </form>
+            </form>
+          </Form>
         </CardContent>
+        <CardFooter className="text-sm text-muted-foreground">
+          Pas de compte, mot de passe oublié ? Demandez moi sur le Whatapp des parents
+          élus.
+        </CardFooter>
       </Card>
     </div>
   )

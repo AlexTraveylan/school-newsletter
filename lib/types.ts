@@ -42,3 +42,10 @@ export const parentEluSchema = z.object({
 })
 
 export type ParentElu = z.infer<typeof parentEluSchema>
+
+export const loginSchema = z.object({
+  username: z.string(),
+  password: z.string(),
+})
+
+export type Login = z.infer<typeof loginSchema>

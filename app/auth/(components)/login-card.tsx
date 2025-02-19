@@ -15,31 +15,32 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
+          <CardTitle className="text-2xl">Connexion</CardTitle>
+          <CardDescription>Connectez vous si vous êtes un parent élu</CardDescription>
         </CardHeader>
         <CardContent>
           <form>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="m@example.com" required />
+                <Label htmlFor="username">Email (ou nom d&apos;utilisateur)</Label>
+                <Input
+                  id="username"
+                  type="username"
+                  placeholder="m@example.com"
+                  required
+                />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Mot de passe</Label>
                 <Input id="password" type="password" required />
               </div>
               <Button type="submit" className="w-full">
-                Login
+                Se connecter
               </Button>
             </div>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <a href="#" className="underline underline-offset-4">
-                Sign up
-              </a>
+            <div className="mt-4 text-center text-sm text-muted-foreground">
+              Pas de compte, mot de passe oublié ? Demandez moi sur le Whatapp des parents
+              élus.
             </div>
           </form>
         </CardContent>

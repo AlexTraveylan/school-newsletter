@@ -1,5 +1,5 @@
 import { ParentEluRepository } from "@/lib/repository"
-import { ParentsList } from "./(composants)/contact-parents"
+import { ParentsList } from "./(components)/contact-parents"
 
 export default async function ContactPage() {
   const parentsRepository = new ParentEluRepository()

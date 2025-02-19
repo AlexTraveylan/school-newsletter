@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner"
 import type { Metadata } from "next"
-import Footer from "./(composants)/footer"
-import Header from "./(composants)/header"
+import Footer from "./(components)/footer"
+import Header from "./(components)/header"
 import "./globals.css"
 
 export const metadata: Metadata = {

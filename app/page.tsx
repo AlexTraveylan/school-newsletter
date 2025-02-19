@@ -1,5 +1,5 @@
 import Link from "next/link"
-import NewsletterForm from "./(composants)/newsletter-form"
+import NewsletterForm from "./(components)/newsletter-form"
 
 export default function Home() {
   return (

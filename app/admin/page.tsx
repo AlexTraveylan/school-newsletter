@@ -3,7 +3,7 @@ import { verifyAuth } from "@/lib/jwt.service"
 import { EmailRepository } from "@/lib/repository"
 import { SecurityService } from "@/lib/security.service"
 import { redirect } from "next/navigation"
-import ListEmails from "./(composants)/list-emails"
+import ListEmails from "./(components)/list-emails"
 
 export default async function AdminPage() {
   const auth = await verifyAuth()

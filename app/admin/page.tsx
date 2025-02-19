@@ -20,5 +20,19 @@ export default async function AdminPage() {
     .filter((email) => isExpired(email.expireYear) === false)
     .map((email) => securityService.decode(email.encodedEmail))
 
-  return <ListEmails emails={filteredDecodedEmails} />
+  return (
+    <div className="flex flex-col gap-2">
+      <section className="text-sm text-muted-foreground">
+        <p>Connecté en tant que {auth.username}</p>
+        <p>Rôle : {auth.isSuperAdmin ? "Super Admin" : "Admin"}</p>
+      </section>
+
+      <h3 className="text-red-400">
+        L'usage de ces adresses email est strictement réservé aux communications des
+        représentants des parents.
+      </h3>
+
+      <ListEmails emails={filteredDecodedEmails} />
+    </div>
+  )
 }

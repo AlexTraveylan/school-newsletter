@@ -14,8 +14,8 @@ export const simpleEmailSchema = z.object({
 export type SimpleEmail = z.infer<typeof simpleEmailSchema>
 
 export const adminSchema = z.object({
-  username: z.string(),
-  password: z.string(),
+  encodedUsername: z.string(),
+  hashedPassword: z.string(),
   isSuperAdmin: z.boolean(),
 })
 

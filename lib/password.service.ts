@@ -8,7 +8,7 @@ export class PasswordService {
       const salt = await bcrypt.genSalt(this.SALT_ROUNDS)
       const hash = await bcrypt.hash(password, salt)
       return hash
-    } catch (error) {
+    } catch {
       throw new Error("Erreur lors du hashage du mot de passe")
     }
   }
@@ -16,7 +16,7 @@ export class PasswordService {
   static async compare(password: string, hashedPassword: string): Promise<boolean> {
     try {
       return await bcrypt.compare(password, hashedPassword)
-    } catch (error) {
+    } catch {
       throw new Error("Erreur lors de la comparaison des mots de passe")
     }
   }

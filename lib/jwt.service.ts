@@ -1,11 +1,13 @@
 import jwt from "jsonwebtoken"
 import { cookies } from "next/headers"
+import { SecurityService } from "./security.service"
 import { settings } from "./settings"
 import { Admin, TokenPayload, tokenPayloadSchema } from "./types"
 
 export class JWTAdminService {
   private readonly secretKey: string
   private readonly tokenExpiration: string
+  private readonly securityService: SecurityService
 
   constructor(
     secretKey: string = settings.jwt_secret_key,
@@ -13,11 +15,12 @@ export class JWTAdminService {
   ) {
     this.secretKey = secretKey
     this.tokenExpiration = tokenExpiration
+    this.securityService = new SecurityService()
   }
 
   public encode(admin: Admin): string {
     const payload: TokenPayload = {
-      username: admin.username,
+      username: this.securityService.decode(admin.encodedUsername),
       isSuperAdmin: admin.isSuperAdmin,
     }
 

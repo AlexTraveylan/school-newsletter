@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken"
+import { cookies } from "next/headers"
 import { settings } from "./settings"
 import { Admin, TokenPayload, tokenPayloadSchema } from "./types"
 
@@ -24,6 +25,7 @@ export class JWTAdminService {
       // @ts-expect-error : I don't how to fix it
       return jwt.sign(payload, this.secretKey, {
         expiresIn: this.tokenExpiration,
+        algorithm: "HS256",
       })
     } catch (error) {
       throw new Error(`Erreur lors de l'encodage du token: ${error}`)
@@ -48,5 +50,21 @@ export class JWTAdminService {
       }
       throw new Error(`Erreur lors du décodage du token: ${error}`)
     }
+  }
+}
+
+export async function verifyAuth(): Promise<TokenPayload | null> {
+  const cookieStore = await cookies()
+  const token = cookieStore.get("admin_token")
+
+  if (!token) {
+    return null
+  }
+
+  try {
+    const service = new JWTAdminService()
+    return service.decode(String(token))
+  } catch {
+    return null
   }
 }

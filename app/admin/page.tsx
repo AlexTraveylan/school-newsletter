@@ -28,7 +28,7 @@ export default async function AdminPage() {
       </section>
 
       <h3 className="text-red-400">
-        L'usage de ces adresses email est strictement réservé aux communications des
+        L&apos;usage de ces adresses email est strictement réservé aux communications des
         représentants des parents.
       </h3>
 

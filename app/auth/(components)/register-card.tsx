@@ -19,24 +19,32 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { InputEye } from "@/components/ui/input-password-eye"
-import { Login, loginSchema } from "@/lib/types"
+import { Register, registerSchema } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
-  const form = useForm<Login>({
-    resolver: zodResolver(loginSchema),
+export function RegisterForm({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) {
+  const urlParams = useSearchParams()
+  const urlCode = urlParams.get("code")
+
+  const form = useForm<Register>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       username: "",
       password: "",
+      code: urlCode || "",
     },
   })
 
-  const onSubmit = async (values: Login) => {
+  const onSubmit = async (values: Register) => {
     try {
-      const response = await fetch("/api/auth", {
+      const response = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,8 +64,8 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Connexion</CardTitle>
-          <CardDescription>Reservé aux représentants des parents.</CardDescription>
+          <CardTitle className="text-2xl">Rejoindre les administrateurs</CardTitle>
+          <CardDescription>Reservé aux représentants des parents élus.</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -89,6 +97,19 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="code"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Code d'invitation</FormLabel>
+                      <FormControl>
+                        <Input disabled={urlCode !== null} {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <Button type="submit" className="w-full">
                   Se connecter
                 </Button>
@@ -96,9 +117,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="text-sm text-muted-foreground">
-          Pas de compte, mot de passe oublié ? Demandez moi sur le Whatapp des parents
-          élus.
+        <CardFooter className="text-sm text-red-600/60">
+          Vous vous engagez à ne pas diffuser les emails, et à les utilisez uniquement pour
+          les communications des représentants des parents.
         </CardFooter>
       </Card>
     </div>

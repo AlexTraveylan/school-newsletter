@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       expireYear: getExpiredYear(),
     }
 
-    emailRepository.add(emailItem)
+    await emailRepository.add(emailItem)
 
     return NextResponse.json({ message: "Email ajouté avec succès" }, { status: 201 })
   } catch (error) {

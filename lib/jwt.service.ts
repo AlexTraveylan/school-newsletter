@@ -72,22 +72,3 @@ export async function verifyAuth(): Promise<TokenPayload | null> {
     return null
   }
 }
-
-// const jwtAdminService = new JWTAdminService()
-
-// const admin = {
-//   encodedUsername: "9qQEfbkzjNKVUNFU2yYRJQ==:prkZIGOWV2gRxH98L88tFNp/rq5VQCGJ2xO3y+uhKWk=",
-//   hashedPassword: "$2b$12$L1pFZSc0XBJf3xJCmt/Sd.riEuQifgFMu3drUxur2MHXDsNhRUZuq",
-//   isSuperAdmin: true,
-// }
-
-// const token = jwtAdminService.encode(admin)
-// console.log(token)
-
-// const decoded = jwtAdminService.decode(token)
-// console.log(decoded)
-
-// const tokenPayload =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRpbW90aGVlLmRlbWFyZXNAZ21haWwuY29tIiwiaXNTdXBlckFkbWluIjp0cnVlLCJpYXQiOjE3NDAwMDU5MTksImV4cCI6MTc0MDA5MjMxOX0.AXq261AqUjdRd1aY7RJ_DWZOOVMGvbDafTNR_v4sRJs"
-
-// console.log(jwtAdminService.decode(String(tokenPayload)))

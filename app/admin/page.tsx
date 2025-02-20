@@ -1,9 +1,10 @@
 import { isExpired } from "@/lib/date.service"
 import { verifyAuth } from "@/lib/jwt.service"
-import { EmailRepository } from "@/lib/repository"
+import { EmailRepository, InvitationRepository } from "@/lib/repository"
 import { SecurityService } from "@/lib/security.service"
 import { redirect } from "next/navigation"
 import ListEmails from "./(components)/list-emails"
+import InvitationsList from "./(components)/list-invitations"
 
 export default async function AdminPage() {
   const auth = await verifyAuth()
@@ -15,6 +16,9 @@ export default async function AdminPage() {
   const emailRepository = new EmailRepository()
   const emails = await emailRepository.getAll()
   const securityService = new SecurityService()
+
+  const invitationRepository = new InvitationRepository()
+  const invitations = await invitationRepository.getAll()
 
   const filteredDecodedEmails = emails
     .filter((email) => isExpired(email.expireYear) === false)
@@ -33,6 +37,8 @@ export default async function AdminPage() {
       </h3>
 
       <ListEmails emails={filteredDecodedEmails} />
+
+      {auth.isSuperAdmin && <InvitationsList invitations={invitations} />}
     </div>
   )
 }

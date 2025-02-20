@@ -1,17 +1,38 @@
+import { createInvitationUrlKey } from "@/lib/invitation.service"
+import { JWTAdminService } from "@/lib/jwt.service"
+import { InvitationRepository } from "@/lib/repository"
+import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const token = request.headers.get("Authorization")
+    const cookieStore = await cookies()
+    const token = cookieStore.get("admin_token")
+
     if (!token) {
-      throw new Error("Token manquant")
+      throw new Error("Non autorisé")
     }
 
-    return NextResponse.json({ message: "Email ajouté avec succès" }, { status: 201 })
+    const jwtService = new JWTAdminService()
+    const user = jwtService.decode(token.value)
+
+    if (user.isSuperAdmin === false) {
+      throw new Error("Droits insuffisants")
+    }
+
+    const newInvitation = createInvitationUrlKey()
+    const invitationRepository = new InvitationRepository()
+
+    await invitationRepository.add({ urlKey: newInvitation, isUsed: false })
+
+    return NextResponse.json({
+      message: "Invitation créée avec succès",
+      urlKey: newInvitation,
+    })
   } catch (error) {
     console.error(error)
     return NextResponse.json(
-      { error: "Echec lors de l'ajout de l'email" },
+      { error: "L'invitation n'a pas pu être crée" },
       { status: 400 }
     )
   }

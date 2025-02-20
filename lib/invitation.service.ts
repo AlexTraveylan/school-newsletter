@@ -1,7 +1,7 @@
 import crypto from "crypto"
 
 export function createInvitationUrlKey(): string {
-  const randomBytes = crypto.randomBytes(16)
+  const randomBytes = crypto.randomBytes(10)
 
   return randomBytes
     .toString("base64")

@@ -22,6 +22,11 @@ const Footer = () => {
             </p>
           </div>
 
+          {/* Middle section */}
+          <div className="text-sm text-muted-foreground text-center">
+            Aucun designer n&apos;a été blessé lors de la création de ce site.
+          </div>
+
           {/* Right section */}
           <div className="flex flex-col gap-4">
             <a

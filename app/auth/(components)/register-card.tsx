@@ -22,7 +22,7 @@ import { InputEye } from "@/components/ui/input-password-eye"
 import { Register, registerSchema } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
@@ -30,6 +30,7 @@ export function RegisterForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const router = useRouter()
   const urlParams = useSearchParams()
   const urlCode = urlParams.get("code")
 
@@ -52,9 +53,14 @@ export function RegisterForm({
         body: JSON.stringify(values),
       })
 
-      if (!response.ok) throw new Error("Erreur lors de la connexion")
+      if (!response.ok) {
+        const data = await response.json()
+        toast.error(data.error)
+        return
+      }
 
-      toast.success("Connexion réussie !")
+      toast.success("Création réussie !")
+      router.push("/admin")
     } catch {
       toast.error("Erreur lors de la connexion")
     }
@@ -102,7 +108,7 @@ export function RegisterForm({
                   name="code"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Code d'invitation</FormLabel>
+                      <FormLabel>Code d&apos;invitation</FormLabel>
                       <FormControl>
                         <Input disabled={urlCode !== null} {...field} />
                       </FormControl>

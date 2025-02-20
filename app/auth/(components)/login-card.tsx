@@ -22,10 +22,13 @@ import { InputEye } from "@/components/ui/input-password-eye"
 import { Login, loginSchema } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+  const router = useRouter()
+
   const form = useForm<Login>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -47,6 +50,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       if (!response.ok) throw new Error("Erreur lors de la connexion")
 
       toast.success("Connexion réussie !")
+      router.push("/admin")
     } catch {
       toast.error("Erreur lors de la connexion")
     }

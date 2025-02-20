@@ -13,7 +13,7 @@ import {
 } from "./types"
 
 export class Repository<T> {
-  private readonly key: string
+  protected readonly key: string
   private readonly schema: z.ZodType<T>
 
   constructor(schema: z.ZodType<T>, key: string) {
@@ -79,6 +79,40 @@ export class AdminRepository extends Repository<Admin> {
 export class InvitationRepository extends Repository<Invitation> {
   constructor() {
     super(invitationSchema, "invitations")
+  }
+
+  async update(invitation: Invitation): Promise<void> {
+    const invitations = await this.getAll()
+    const index = invitations.findIndex((i) => i.urlKey === invitation.urlKey)
+
+    if (index === -1) {
+      throw new Error("Invitation non trouvée")
+    }
+
+    invitations[index] = invitation
+
+    const response = await fetch(vercelApiUrl, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${settings.vercel_api_token}`,
+      },
+      body: JSON.stringify({
+        items: [
+          {
+            operation: "update",
+            key: this.key,
+            value: invitations,
+          },
+        ],
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de la mise à jour de l'invitation")
+    }
+
+    console.log("Invitation mise à jour avec succès")
   }
 }
 
